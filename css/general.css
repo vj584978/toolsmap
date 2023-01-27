@@ -1,0 +1,31 @@
+/* 
+    Created on : 2023年1月27日
+    Author     : Garion
+*/
+.d-flex{
+   display: flex; 
+}
+.j-center{
+    width: 100%;
+    justify-content: center;
+}
+.a-center{
+    align-items: center;
+}
+.aj-center{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.border1px{
+    border: 1px black solid;
+}
+.w-100{
+    width: 100%;
+}
+.w-80{
+    width: 80%;
+}
+.p-10{
+    padding: 10px;
+}
