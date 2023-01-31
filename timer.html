@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Sample Timer</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            *{
+                box-sizing: border-box;
+                padding: 0;
+                margin: 0;
+            }
+            .center{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .box{
+                width: 500px;
+                height: 500px;
+                border: 1px blue dotted;
+            }
+            .hours,.mins,.sec{
+                font-size: 50px;
+                width: 60px;
+                border: none;
+            }
+            .dots{
+                font-size: 50px;
+            }
+            .button{
+                width: 30px;
+                height: 30px;
+            }
+            input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                appearance: none;
+                margin: 0;
+            } 
+        </style>
+        <script>
+            function increase(target) {
+                    let oriValue = parseInt(document.getElementById(target).value);
+                    let limit = document.getElementById(target).max;
+                    let output = 0;
+                    if (oriValue < limit) {
+                            output = oriValue + 1;
+                            if (output < 10) {
+                                    output = "0" + output;
+                            }
+                            document.getElementById(target).value = output;
+                    } else if (target === "sec") {
+                            document.getElementById('min').value = parseInt(document.getElementById('min').value) + 1;
+                            document.getElementById('sec').value = "00";
+                            check('min');
+                    } else if (target === "min") {
+                            document.getElementById('hour').value = parseInt(document.getElementById('hour').value) + 1;
+                            document.getElementById('min').value = "00";
+                    }
+            }
+
+            function decrease(target) {
+                    let oriValue = parseInt(document.getElementById(target).value);
+                    let output = 0;
+                    if (oriValue > 0) {
+                            output = oriValue - 1;
+                            if (output < 10) {
+                                    output = "0" + output;
+                            }
+                            document.getElementById(target).value = output;
+                    }
+            }
+
+            function check(target) {
+                    let input = document.getElementById(target).value;
+                    if(isNaN(input) || input<0 || input==="") {
+                        input = 0;
+                    }
+                    let oriValue = parseInt(input);
+                    let limit = document.getElementById(target).max;
+                    if (oriValue < 10) {
+                            document.getElementById(target).value = "0" + oriValue;
+                    } else {
+                            document.getElementById(target).value = oriValue;
+                    }
+                    if (oriValue > limit) {
+                            document.getElementById(target).value = limit;
+                    }
+                    if (oriValue > 59 && target === "sec") {
+                            document.getElementById('min').value = parseInt(document.getElementById('min').value) + 1;
+                            document.getElementById("sec").value = "00";
+                            check("min");
+                    } else if (oriValue > 59 && target === "min") {
+                            document.getElementById('hour').value = parseInt(document.getElementById('hour').value) + 1;
+                            document.getElementById('min').value = "00";
+                    }
+            }
+
+            function counterReset() {
+                    document.getElementById('hour').value = '00';
+                    document.getElementById('min').value = '00';
+                    document.getElementById('sec').value = '00';
+                    document.getElementById('state').value = "0";
+                    document.getElementById('pauseBTN').value = "　暫停　";
+            }
+            
+            function startCount() {
+                    document.getElementById('state').value = "1";
+                    let btn = document.getElementsByName('button');
+                    let input = ["hour", "min", "sec"];
+                    for (let i = 0; i < 3; i++) {
+                            document.getElementById(input[i]).readOnly = "true";
+                    }
+                    for (let i = 0; i < btn.length; i++) {
+                            btn[i].disabled = "true";
+                    }
+                    document.getElementById('resetBTN').disabled = "true";
+                    let hour = parseInt(document.getElementById('hour').value);
+                    let min = parseInt(document.getElementById('min').value);
+                    let sec = parseInt(document.getElementById('sec').value);
+                    let countTime = (hour * 60 + min) * 60 + sec;
+                    let count = setInterval(function() {
+                            let state = document.getElementById('state').value;
+                            if (countTime === 0) {
+                                    clearInterval(count);
+                                    document.getElementById('sound').play();
+                                    for (let i = 0; i < 3; i++) {
+                                            document.getElementById(input[i]).removeAttribute('readOnly');
+                                    }
+                                    for (let i = 0; i < btn.length; i++) {
+                                            btn[i].removeAttribute('disabled');
+                                    }
+                                    setTimeout(alert("時間到!"), 500);
+                            } else if (state === "0") {
+                                    clearInterval(count);
+                                    for (let i = 0; i < 3; i++) {
+                                            document.getElementById(input[i]).removeAttribute('readOnly');
+                                    }
+                                    for (let i = 0; i < btn.length; i++) {
+                                            btn[i].removeAttribute('disabled');
+                                    }
+                            } else if (state === "2") {
+                                    clearInterval(count);
+                                    for (let i = 0; i < 3; i++) {
+                                            document.getElementById(input[i]).removeAttribute('readOnly');
+                                    }
+                                    for (let i = 0; i < btn.length; i++) {
+                                            btn[i].removeAttribute('disabled');
+                                    }
+                            } else {
+                                    countTime -= 1;
+                                    hour = parseInt(countTime / 3600);
+                                    min = parseInt((countTime % 3600) / 60);
+                                    sec = countTime % 60;
+                                    document.getElementById('hour').value = hour;
+                                    document.getElementById('min').value = min;
+                                    document.getElementById('sec').value = sec;
+                                    document.getElementById('pauseBTN').value = "　暫停　";
+                                    check('min');
+                                    check('hour');
+                                    check('sec');
+                                    console.log(countTime);
+                            }
+                    }, 1000);
+            }
+
+            function pause() {
+                    let state = document.getElementById('state').value;
+                    if (state === "1") {
+                            document.getElementById('state').value = "2";
+                            document.getElementById('pauseBTN').value = "　繼續　";
+                            document.getElementById('resetBTN').removeAttribute('disabled');
+                    } else if (state === "2") {
+                            document.getElementById('state').value = "1";
+                            document.getElementById('pauseBTN').value = "　暫停　";
+                            startCount();
+                    } else if (state === "0") {}
+            }
+        </script>
+    </head>
+    <body>
+        <div class="center" style="width:100%">
+            <div id="counterArea" class="box">
+                <h1 style="text-align:center;font-size:100px;">計時器</h1>
+                <hr/>
+                <div class="center" style="font-size:45px;">
+                    小時<font style="width:70px;"></font>分<font style="width:70px;"></font>秒
+                </div>
+                <div class="center">
+                    <div style="display: flex">
+                        <input type="number" id="hour" class="hours" value="00" min="00" max="99" onchange="check('hour')"/>
+                        <div style="width:30px">
+                            <input type="button" value="▲" class="button" name="button" onclick="increase('hour')"/>
+                            <input type="button" value="▼" class="button" name="button" onclick="decrease('hour')"/>
+                        </div>
+                    </div>
+                    <div class="dots">:&nbsp</div>
+                    <div style="display: flex">
+                        <input type="number" id="min" class="mins" value="00" min="00" max="59" onchange="check('min')"/>
+                        <div style="width:30px">
+                            <input type="button" value="▲" class="button" name="button" onclick="increase('min')"/>
+                            <input type="button" value="▼" class="button" name="button" onclick="decrease('min')"/>
+                        </div>
+                    </div>
+                    <div class="dots">:&nbsp</div>
+                    <div style="display:flex">
+                        <input type="number" id="sec" class="sec" value="00" min="00" max="59" onchange="check('sec')"/>
+                        <div style="width:30px">
+                            <input type="button" value="▲" class="button" name="button" onclick="increase('sec')"/>
+                            <input type="button" value="▼" class="button" name="button" onclick="decrease('sec')"/>
+                        </div>
+                        <input type="hidden" id="state" value="0"/>
+                    </div>
+                </div>
+                <br/><br/><br/><br/>
+                <div class="center">
+                    <input type="button" value="　重設　" id="resetBTN" onclick="counterReset()" style="font-size: 30px;"/>
+                    <font style="width:20px;"></font>
+                    <input type="button" value="開始計時" id="startBTN" onclick="startCount()" style="font-size: 30px;"/>
+                    <font style="width:20px;"></font>
+                    <input type="button" value="　暫停　" id="pauseBTN" onclick="pause()" style="font-size: 30px;"/>
+                </div>
+                <div><audio src="alert.mp3" id="sound"></audio></div>
+            </div>
+        </div>
+    </body>
+</html>

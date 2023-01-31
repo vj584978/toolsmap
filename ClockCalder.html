@@ -302,7 +302,12 @@
                     }
                 }
             }
+            function reSize(){
+            parent.document.all.mainframe.height=document.body.scrollHeight;
+            }
+            window.onload=reSize;
         </script>
+
     </head>
     <body id="body" onload="time(),datenow()">
         <div>

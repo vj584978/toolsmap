@@ -28,32 +28,85 @@
             }
             .square{
                 width: 100%;
-                height: 40vh;
-                border-radius: 10px;
+                height: 60vh;
+                border-radius: 10px;                
             }
-            
-            
+            .iframeBox{
+                width: 100%;
+                height: 80%;
+                border-radius: 10px 10px 0 0;
+                overflow: hidden;
+            }
+            .iframeDefault{
+                width: 100%;
+                height: 200%;
+                border: none;
+                border-radius: 10px 10px 0 0;
+            }
+            .overHidden{
+                overflow: hidden;
+            }
         </style>
+        <script>
+            function openWindow(target){
+                window.open(target,'new window',"top=250,left=300,width=800,height=600");
+            }
+        </script>
     </head>
     <body>
         <div class='bg'>
             <h1 class="topTitle">歡迎來到不太實用的小工具區</h1>
             <div class="w-100 d-flex aj-center">
                 <div class="w-80">
-                    <div class="col-l-3 col-m-6 p-10">
-                        <div class="square border1px w-100"></div>
+                    <div class="col-l-3 col-m-6 p-10 overHidden">
+                        <div class="square border1px w-100">
+                            <div class="iframeBox">
+                                <iframe src="ClockCalder.html" name="tools1" id="tools1" scrolling="no" class="iframeDefault" style="transform: scale(0.38);transform-origin: 0 0;width: 260%"></iframe>
+                            </div>
+                            <hr/>
+                            <a href="#" onclick="openWindow('ClockCalder.html')"><h2 align="center">>萬年曆時鐘<</h2></a>
+                            <p align="center">可切換主題及中英文顯示並附帶萬年曆的時鐘</p>
+                        </div>
                     </div>
                     <div class="col-l-3 col-m-6 p-10">
-                        <div class="square border1px w-100"></div>
+                        <div class="square border1px w-100">
+                            <div class="iframeBox">
+                                <iframe src="twIDChecker.html" name="tools2" scrolling="no" class="iframeDefault" style="transform: scale(0.8);transform-origin: -10px 0;width: 130%"></iframe>
+                            </div>
+                            <hr/>
+                            <a href="#" onclick="openWindow('twIDChecker.html')"><h2 align="center">>身分證驗證<</h2></a>
+                            <p align="center">檢查輸入的身分證字號是否符合格式</p>
+                        </div>
                     </div>
                     <div class="col-l-3 col-m-6 p-10">
-                        <div class="square border1px w-100"></div>
+                        <div class="square border1px w-100">
+                            <div class="iframeBox">
+                                <iframe src="twIDGenerator.html" name="tools3" scrolling="no" class="iframeDefault" style="transform: scale(0.8);transform-origin: -10px 0;width: 130%"></iframe>
+                            </div>
+                            <hr/>
+                            <a href="#" onclick="openWindow('twIDGenerator.html')"><h2 align="center">>身分證產生<</h2></a>
+                            <p align="center">產生符合格式的身分證字號</p>
+                        </div>
                     </div>
                     <div class="col-l-3 col-m-6 p-10">
-                        <div class="square border1px w-100"></div>
+                        <div class="square border1px w-100">
+                            <div class="iframeBox">
+                                <iframe src="unitConvert.html" name="tools4" scrolling="no" class="iframeDefault" style="transform: scale(0.6);transform-origin: -10px 0;width: 180%;"></iframe>
+                            </div>
+                            <hr/>
+                            <a href="#" onclick="openWindow('unitConvert.html')"><h2 align="center">>單位轉換機<</h2></a>
+                            <p align="center">可換算溫度、重量、長度三種單位</p>
+                        </div>
                     </div>
                     <div class="col-l-3 col-m-6 p-10">
-                        <div class="square border1px w-100"></div>
+                        <div class="square border1px w-100">
+                            <div class="iframeBox">
+                                <iframe src="timer.html" name="tools5" scrolling="no" class="iframeDefault" style="transform: scale(0.6);transform-origin: -10px 0;width: 180%;"></iframe>
+                            </div>
+                            <hr/>
+                            <a href="#" onclick="openWindow('timer.html')"><h2 align="center">>倒數計時器<</h2></a>
+                            <p align="center">簡易型倒數計時器</p>
+                        </div>
                     </div>
                     <div class="col-l-3 col-m-6 p-10">
                         <div class="square border1px w-100"></div>
